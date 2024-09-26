@@ -8,35 +8,26 @@
 #include <assert.h>
 #include <stddef.h>
 
-void sort (char** quantity_lines, size_t sum1)
+void sort (char** quantity_lines, size_t* num_sym_in_str, size_t sum,
+           int(*compare_func)(char* str1, char* str2, size_t size1, size_t size2))
 {
-    for (size_t j = 0; j < sum1; j++)
+    assert (quantity_lines != NULL);
+    assert (num_sym_in_str != NULL);
+    assert (compare_func != NULL);
+    for (size_t j = 0; j < sum; j++)
     {
-        for (size_t i = 0; i < sum1 - j - 1; i++)
+        for (size_t i = 0; i < sum - j - 1; i++)
         {
-            if (my_strcmp( (quantity_lines[i]), (quantity_lines[i+1])) > 0)
+            if ((*compare_func)(quantity_lines[i], quantity_lines[i + 1], num_sym_in_str[i], num_sym_in_str[i+1]) > 0)
             {
-                 char *helper = (quantity_lines[i]);
-                                (quantity_lines[i]) = (quantity_lines[i+1]);
-                                                      (quantity_lines[i+1]) = helper;
+                char *helper1 = (quantity_lines[i]);
+                                (quantity_lines[i]) = (quantity_lines[i + 1]);
+                                                      (quantity_lines[i + 1]) = helper1;
+                size_t helper2 = num_sym_in_str[i];
+                                 num_sym_in_str[i] = num_sym_in_str[i + 1];
+                                         num_sym_in_str[i + 1] = helper2;
             }
         }
     }
 }
 
-//  void reverse_sort (char** quantity_lines, size_t sum1, size_t *ww)
-//  {
-//     for (size_t j = sum1; j > 0; j--)
-//     {
-//         for (size_t i = sum1; i > sum1 - j - 1; i--)
-//         {
-//             if (my_reverse_strcmp( (quantity_lines[i]), (quantity_lines[i-1]), ww[i], ww[i-1]) > 0)
-//             {
-//                  char *helper = (quantity_lines[i]);
-//                                 (quantity_lines[i]) = (quantity_lines[i-1]);
-//                                                       (quantity_lines[i-1]) = helper;
-//             }
-//         }
-//     }
-//  }
-//
